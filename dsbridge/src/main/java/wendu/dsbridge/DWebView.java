@@ -13,8 +13,8 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.annotation.Keep;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.Keep;
+import androidx.appcompat.app.AlertDialog;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -256,12 +256,15 @@ public class DWebView extends WebView {
             settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
         settings.setAllowFileAccess(false);
-        settings.setAppCacheEnabled(false);
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         settings.setJavaScriptEnabled(true);
         settings.setLoadWithOverviewMode(true);
-        settings.setAppCachePath(APP_CACHE_DIRNAME);
         settings.setUseWideViewPort(true);
+        // 禁用所有缓存（内存+磁盘）
+        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        // 或使用默认缓存策略
+        settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+
         super.setWebChromeClient(mWebChromeClient);
         addInternalJavascriptObject();
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
@@ -816,14 +819,6 @@ public class DWebView extends WebView {
                 super.onExceededDatabaseQuota(url, databaseIdentifier, quota,
                         estimatedDatabaseSize, totalQuota, quotaUpdater);
             }
-        }
-
-        @Override
-        public void onReachedMaxAppCacheSize(long requiredStorage, long quota, WebStorage.QuotaUpdater quotaUpdater) {
-            if (webChromeClient != null) {
-                webChromeClient.onReachedMaxAppCacheSize(requiredStorage, quota, quotaUpdater);
-            }
-            super.onReachedMaxAppCacheSize(requiredStorage, quota, quotaUpdater);
         }
 
         @Override

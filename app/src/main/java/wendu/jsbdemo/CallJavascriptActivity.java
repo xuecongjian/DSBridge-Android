@@ -1,7 +1,7 @@
 package wendu.jsbdemo;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
@@ -13,6 +13,10 @@ import wendu.dsbridge.OnReturnValue;
 public class CallJavascriptActivity extends AppCompatActivity implements View.OnClickListener {
 
     DWebView dWebView;
+
+    private static final int ID_ADD_VALUE = R.id.addValue;
+    private static final int ID_APPEND = R.id.append;
+    private static final int ID_START_TIMER = R.id.startTimer;
 
     public <T extends View> T getView(int viewId) {
         View view = findViewById(viewId);
@@ -49,95 +53,84 @@ public class CallJavascriptActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.addValue:
-                dWebView.callHandler("addValue", new Object[]{3, 4}, new OnReturnValue<Integer>() {
-                    @Override
-                    public void onValue(Integer retValue) {
-                        showToast(retValue);
-                    }
-                });
-                break;
-            case R.id.append:
+        int id = v.getId();
+        if (R.id.addValue == id) {
+            dWebView.callHandler("addValue", new Object[]{3, 4}, new OnReturnValue<Integer>() {
+                @Override
+                public void onValue(Integer retValue) {
+                    showToast(retValue);
+                }
+            });
+        } else if (R.id.append == id) {
                 dWebView.callHandler("append", new Object[]{"I", "love", "you"}, new OnReturnValue<String>() {
                     @Override
                     public void onValue(String retValue) {
                         showToast(retValue);
                     }
                 });
-                break;
-            case R.id.startTimer:
+        } else if (R.id.startTimer == id) {
                 dWebView.callHandler("startTimer", new OnReturnValue<Integer>() {
                     @Override
                     public void onValue(Integer retValue) {
                         showToast(retValue);
                     }
                 });
-                break;
-            case R.id.synAddValue:
+        } else if (R.id.synAddValue == id) {
                 dWebView.callHandler("syn.addValue", new Object[]{5, 6}, new OnReturnValue<Integer>() {
                     @Override
                     public void onValue(Integer retValue) {
                         showToast(retValue);
                     }
                 });
-                break;
-            case R.id.synGetInfo:
+        } else if (R.id.synGetInfo == id) {
                 dWebView.callHandler("syn.getInfo", new OnReturnValue<JSONObject>() {
                     @Override
                     public void onValue(JSONObject retValue) {
                         showToast(retValue);
                     }
                 });
-                break;
-            case R.id.asynAddValue:
+        } else if (R.id.asynAddValue == id) {
                 dWebView.callHandler("asyn.addValue", new Object[]{5, 6}, new OnReturnValue<Integer>() {
                     @Override
                     public void onValue(Integer retValue) {
                         showToast(retValue);
                     }
                 });
-                break;
-            case R.id.asynGetInfo:
+        } else if (R.id.asynGetInfo == id) {
                 dWebView.callHandler("asyn.getInfo", new OnReturnValue<JSONObject>() {
                     @Override
                     public void onValue(JSONObject retValue) {
                         showToast(retValue);
                     }
                 });
-                break;
-            case R.id.hasMethodAddValue:
+        } else if (R.id.hasMethodAddValue == id) {
                 dWebView.hasJavascriptMethod("addValue", new OnReturnValue<Boolean>() {
                     @Override
                     public void onValue(Boolean retValue) {
                         showToast(retValue);
                     }
                 });
-                break;
-            case R.id.hasMethodXX:
+        } else if (R.id.hasMethodXX == id) {
                 dWebView.hasJavascriptMethod("XX", new OnReturnValue<Boolean>() {
                     @Override
                     public void onValue(Boolean retValue) {
                         showToast(retValue);
                     }
                 });
-                break;
-            case R.id.hasMethodAsynAddValue:
+        } else if (R.id.hasMethodAsynAddValue == id) {
                 dWebView.hasJavascriptMethod("asyn.addValue", new OnReturnValue<Boolean>() {
                     @Override
                     public void onValue(Boolean retValue) {
                         showToast(retValue);
                     }
                 });
-                break;
-            case R.id.hasMethodAsynXX:
+        } else if (R.id.hasMethodAsynXX == id) {
                 dWebView.hasJavascriptMethod("asyn.XX", new OnReturnValue<Boolean>() {
                     @Override
                     public void onValue(Boolean retValue) {
                         showToast(retValue);
                     }
                 });
-                break;
         }
 
     }
